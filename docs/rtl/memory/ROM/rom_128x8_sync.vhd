@@ -2,6 +2,8 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.math_real.all;
+use work.MNEMONICS.all 
+
 
 entity rom_128x8_sync is 
   generic(
@@ -22,10 +24,10 @@ architecture rom_128x8_sync_arch of rom_128x8_sync is
     type ROM_ARRAY is array (0 to DEPTH -1) of std_logic_vector(WIDTH-1 downto 0)
 
     -- THIS IS PROGRAM MEMORY, YOU CAN PUT WHATEVER INSTRUCTIONS YOU WANT TO RUN SPECIFIC OPERATION. MAKE SURE TO BRANCH TO TOP 
-    const ROM : ROM_ARRAY :=  ( 0       =>   
-                                1       =>
-                                2       =>
-                                3       =>
+    const ROM : ROM_ARRAY :=  ( 0       => LDA_IMM,  
+                                1       => x"AA", 
+                                2       => STA_DIR,
+                                3       => x"E0",
                                 4       => BRA,
                                 5       => x"00",
                                 others  => x"00");
