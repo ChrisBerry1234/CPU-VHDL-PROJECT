@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.math_real.all;
-use work.MNEMONICS.all 
+use work.MNEMONICS.all; 
 
 entity ram_128x8_sync is 
   generic(
@@ -14,6 +14,7 @@ entity ram_128x8_sync is
     clock     : in std_logic;
     address   : in std_logic_vector(integer(ceil(log2(real(DEPTH)))) -1 downto 0);
     data_in   : in std_logic_vector(WIDTH-1 to 0);
+    WE        : in std_logic;
     data_out  : out std_logic(WIDTH-1 to 0)
   );
 end entity;
@@ -25,6 +26,7 @@ architecture ram_128x8_sync_arch of ram_128x8_sync is
 
     --ADDRESS AND CLOCK BOTH ENTER MEMORY. NEED SEPARATE PROCESSES
 
+    --PORT TO ENABLE RAM BASED ON ADDRESS
     signal EN : std_logic;
     -- RW signal to handle data 
     signal RW : RAM_ARRAY; 
@@ -33,7 +35,7 @@ architecture ram_128x8_sync_arch of ram_128x8_sync is
 
     ADDRESS : process(address)
       begin
-        if (to_integer(unsigned(address)) >= 128) and (to_integer(unsigned(address)) <= 223) then 
+        if ((to_integer(unsigned(address)) >= 128) and (to_integer(unsigned(address))) <= 223) then 
           EN <= '1';
         else
           EN <= '0';
@@ -44,7 +46,11 @@ architecture ram_128x8_sync_arch of ram_128x8_sync is
         begin 
           if(rising_edge(clock)) then
             if (EN = '1') then 
-              data_out <= ROM(to_integer(unsigned(address)));
+              if (WE = '1') then 
+                RW(to_integer(unsigned(address))) <= data_in;
+              else 
+                data_out <= RW(to_integer(unsigned(address)));
+              end if;
             end if;
           end if; 
     end process;
