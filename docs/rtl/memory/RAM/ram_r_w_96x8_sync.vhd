@@ -21,7 +21,7 @@ end entity;
 
 architecture ram_128x8_sync_arch of ram_128x8_sync is 
   
-    type RAM_ARRAY is array (128 to DEPTH -1) of std_logic_vector(WIDTH-1 downto 0)
+    type RAM_ARRAY is array (128 to DEPTH -1) of std_logic_vector(WIDTH-1 downto 0);
 
     --ADDRESS AND CLOCK BOTH ENTER MEMORY. NEED SEPARATE PROCESSES
 
@@ -34,7 +34,8 @@ architecture ram_128x8_sync_arch of ram_128x8_sync is
 
     ADDRESS : process(address)
       begin
-        if ((to_integer(unsigned(address)) >= 128) and (to_integer(unsigned(address))) <= 223) then 
+        if (to_integer(unsigned(address)) >= 128) and 
+           (to_integer(unsigned(address)) <= 223) then 
           EN <= '1';
         else
           EN <= '0';
