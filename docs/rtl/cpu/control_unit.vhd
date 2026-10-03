@@ -4,8 +4,11 @@ use ieee.numeric_std.all;
 
 entity data_path is 
   port (
-    Clock    : in std_logic;
-    Reset    : in std_logic;  
+    Clock       : in std_logic;
+    Reset       : in std_logic;  
+    address     : out std_logic_vector(7 downto 0);
+    from_memory : in std_logic_vector(7 downto 0);
+    to_memory   : out std_logic_vector(7 downto 0);
     
     --INCLUDE ALL CONTROL UNIT INPUT SIGNALS TO ENTITY
     IR_Load  : in std_logic;
@@ -34,7 +37,7 @@ architecture data_path_arch of data_path is
   signal CCR : std_logic_vector(7 downto 0);  
 
   begin
-    --Modeling D FlipFlop Logic 
+    --Modeling D FlipFlop Sequential Logic 
     INSTRUCTION_REGISTER: process(Clock, Reset)
       begin
         if (Reset = '0') then 
@@ -96,6 +99,27 @@ architecture data_path_arch of data_path is
                           B <= BUS2;
                         end if;
                       end if;
+      end process; 
+
+
+      --MULTIPLEXER COMBINATIONAL LOGIC
+      --ALU Result is included from ALU.vhdl 
+      MUX_BUS2: process(Bus2_Sel, ALU_Result, BUS2, from_memory)
+                  begin 
+                    with(Bus2_Sel)
+                      BUS2 <= ALU_Result      when "00",
+                              BUS1            when "01",
+                              from_memory     when "10",
+                              (others => '0') when others;
+      end process;
+
+      MUX_BUS1: process(Bus1_Sel, PC, A, B, BUS1)
+                    begin 
+                      with(Bus1_Sel)
+                        BUS1 <= PC when "00",
+                                A  when "01",
+                                B  when "10",
+                                (others => '0') when others;
       end process; 
 
   end architecture; 
