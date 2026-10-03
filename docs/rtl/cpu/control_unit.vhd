@@ -3,8 +3,19 @@ use ieee.std_logic_1164.all;
 
 entity data_path is 
   port (
-    Clock : in std_logic;
-    Reset:  out std_logic    
+    Clock    : in std_logic;
+    Reset    : in std_logic;  
+    
+    --INCLUDE ALL CONTROL UNIT INPUT SIGNALS TO ENTITY
+    IR_Load  : in std_logic;
+    MAR_Load : in std_logic; 
+    PC_Load  : in std_logic;
+    PC_Inc   : in std_logic;
+    A_Load   : in std_logic;
+    B_Load   : in std_logic;
+    CCR_Load : in std_logic; 
+    Bus2_Sel : in std_logic;
+    Bus1_Sel : in std_logic;
   );
 end data_path;
 
