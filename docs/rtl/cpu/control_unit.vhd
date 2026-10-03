@@ -6,19 +6,24 @@ entity data_path is
     port (
         Clock       : in  std_logic;
         Reset       : in  std_logic;  
+        write       : out std_logic; 
+        
         address     : out std_logic_vector(7 downto 0);
         from_memory : in  std_logic_vector(7 downto 0);
         to_memory   : out std_logic_vector(7 downto 0);
 
-        IR_Load     : in std_logic;
-        MAR_Load    : in std_logic; 
-        PC_Load     : in std_logic;
-        PC_Inc      : in std_logic;
-        A_Load      : in std_logic;
-        B_Load      : in std_logic;
-        CCR_Load    : in std_logic; 
-        Bus2_Sel    : in std_logic_vector(1 downto 0);
-        Bus1_Sel    : in std_logic_vector(1 downto 0)
+        IR_Load     : out std_logic;
+        IR          : in  std_logic_vector(7 downto 0); 
+        MAR_Load    : out std_logic; 
+        PC_Load     : out std_logic;
+        PC_Inc      : out std_logic;
+        A_Load      : out std_logic;
+        B_Load      : out std_logic;
+        ALU_Sel     : out std_logic_vector(3 downto 0);
+        CCR_Result  : in  std_logic_vector(3 downto 0);
+        CCR_Load    : out std_logic; 
+        Bus2_Sel    : out std_logic_vector(1 downto 0);
+        Bus1_Sel    : out std_logic_vector(1 downto 0)
     );
 end data_path;
 
