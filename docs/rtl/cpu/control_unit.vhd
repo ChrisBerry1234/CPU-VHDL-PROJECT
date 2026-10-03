@@ -1,5 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.
 
 entity data_path is 
   port (
@@ -38,4 +39,31 @@ architecture data_path_arch of data_path is
            end if;
         end if;
     end process; 
+
+     MEMORY_ADDRESS_REGISTER: process(Clock, Reset):
+          begin 
+            if (Reset = '0') then 
+              MAR <= x"00";
+            elsif (rising_edge(Clock)) then 
+              if (MAR_Load = "1") then 
+                MAR <= BUS2;
+              end if;
+            end if;
+    end process;
+
+    PROGRAM_COUNTER: process(Clock, Reset):
+              variable PC_Temp;
+              PC_Temp = PC;
+              begin 
+                if (Reset = "0") then
+                  PC <= x"00";
+                elsif (rising_edge(Clock)) then 
+                  if(PC_Load = "1") then 
+                    PC <= unsigned(BUS2);
+                  elsif(PC_Inc = "1") then
+                    PC <= unsigned(PC_Temp)+1;
+                    
+                    
+              
+                
 
