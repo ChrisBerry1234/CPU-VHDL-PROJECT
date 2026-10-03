@@ -18,9 +18,8 @@ entity data_path is
     A_Load   : in std_logic;
     B_Load   : in std_logic;
     CCR_Load : in std_logic; 
-    Bus2_Sel : in std_logic;
-    Bus1_Sel : in std_logic
-  );
+    Bus2_Sel : in std_logic_vector(1 downto 0);
+    Bus1_Sel : in std_logic_vector(1 downto 0));
 end data_path;
 
 architecture data_path_arch of data_path is 
@@ -29,12 +28,13 @@ architecture data_path_arch of data_path is
   signal BUS2: std_logic_vector(7 downto 0);
 
   --COMPONENTS(Internal Signals)
-  signal IR  : std_logic_vector(7 downto 0);
-  signal MAR : std_logic_vector(7 downto 0);
-  signal PC  : std_logic_vector(7 downto 0);
-  signal A   : std_logic_vector(7 downto 0);
-  signal B   : std_logic_vector(7 downto 0);
-  signal CCR : std_logic_vector(7 downto 0);  
+  signal IR     : std_logic_vector(7 downto 0);
+  signal MAR    : std_logic_vector(7 downto 0);
+  signal PC     : std_logic_vector(7 downto 0);
+  signal PC_uns : unsigned(7 downto 0);
+  signal A      : std_logic_vector(7 downto 0);
+  signal B      : std_logic_vector(7 downto 0);
+  signal CCR    : std_logic_vector(7 downto 0);  
 
   begin
     --Modeling D FlipFlop Sequential Logic 
@@ -69,15 +69,16 @@ architecture data_path_arch of data_path is
                 if (Reset = '0') then
                   PC <= x"00";
                 elsif (rising_edge(Clock)) then 
-                  PC_Temp = PC;
+                  PC_Temp = PC_uns;
                   if(PC_Load = '1') then 
-                    PC <= unsigned(BUS2);
+                    PC_Temp <= unsigned(BUS2);
                   elsif(PC_Inc = '1') then
-                    PC_Temp = PC;
-                    PC <= PC_Temp + 1;
+                    PC_uns <= PC_Temp + 1;
                   end if;
                 end if;
       end process;
+
+      PC <= std_logic_vector(PC_uns);
 
       A_Register: process(Clock, Reset)
                     begin 
