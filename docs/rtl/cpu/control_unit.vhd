@@ -67,13 +67,16 @@ architecture data_path_arch of data_path is
     
               begin 
                 if (Reset = '0') then
-                  PC <= x"00";
+                  PC_uns; <= x"00";
                 elsif (rising_edge(Clock)) then 
-                  PC_Temp = PC_uns;
-                  if(PC_Load = '1') then 
-                    PC_Temp <= unsigned(BUS2);
-                  elsif(PC_Inc = '1') then
+                  PC_Temp <= PC_uns;
+            
+                  if (PC_Load = '1') then 
+                    PC_uns <= unsigned(BUS2);
+            
+                  elsif (PC_Inc = '1') then
                     PC_uns <= PC_Temp + 1;
+            
                   end if;
                 end if;
       end process;
