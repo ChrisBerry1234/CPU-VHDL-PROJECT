@@ -43,7 +43,8 @@ architecture control_unit_arch of control_unit is
 
                          S_LDA_DIR_4,       -- Load B (Direct) states
                          S_LDA_DIR_5, 
-                         S_LDA_DIR_6, )
+                         S_LDA_DIR_6,
+                         S_LDA_DIR_7);
     
     signal current_state := state_type;
     signal next_state: state_type;
@@ -134,7 +135,7 @@ architecture control_unit_arch of control_unit is
                             Bus2_Sel = "00"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
                             write     <= '0';
 
-                     --------------------LDA_IMM 
+                     --------------------LDA_IMM------------------------------------- 
                       when (S_LDA_IMM_4) => 
                             IR_Load   <= '0';
                             MAR_Load  <= '1';
@@ -175,7 +176,7 @@ architecture control_unit_arch of control_unit is
                             Bus2_Sel = "10"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
                             write     <= '0';
 
-                        ------------------------------------
+                    --------------------LDA_IMM------------------------------------- 
                         when (S_LDA_DIR_4) =>
                             IR_Load   <= '0';
                             MAR_Load  <= '1';
@@ -205,16 +206,31 @@ architecture control_unit_arch of control_unit is
 
                      when (S_LDA_DIR_6) =>
                             IR_Load   <= '0';
+                            MAR_Load  <= '1';
+                            PC_Load   <= '0';
+                            PC_Inc    <= '0';
+                            A_Load    <= '0';
+                            B_Load    <= '0';
+                            ALU_Sel   <= "000";
+                            CCR_Load  <= '0';
+                            --Bus1_Sel = "00"; --PC = "00", A="01", B="10"
+                            Bus2_Sel = "10"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
+                            write     <= '0';
+
+                    when(S_LDA_DIR_7) => 
+                            IR_Load   <= '0';
                             MAR_Load  <= '0';
                             PC_Load   <= '0';
-                            PC_Inc    <= '1';
-                            A_Load    <= '0';
+                            PC_Inc    <= '0';
+                            A_Load    <= '1';
                             B_Load    <= '0';
                             ALU_Sel   <= "000";
                             CCR_Load  <= '0';
                             --Bus1_Sel = "00"; --PC = "00", A="01", B="10"
                             --Bus2_Sel = "10"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
                             write     <= '0';
+                     
+                    ----------------------LDA_IMM------------------------------------- 
 
 
 end control_unit_arch;
