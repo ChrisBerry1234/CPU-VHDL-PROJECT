@@ -41,10 +41,19 @@ architecture control_unit_arch of control_unit is
                          S_LDA_IMM_5,
                          S_LDA_IMM_6, 
 
-                         S_LDA_DIR_4,       -- Load B (Direct) states
+                         S_LDB_IMM_4,       -- Load B (Immediate) states
+                         S_LDB_IMM_5,
+                         S_LDB_IMM_6,
+
+                         S_LDA_DIR_4,       -- Load A (Direct) states
                          S_LDA_DIR_5, 
                          S_LDA_DIR_6,
-                         S_LDA_DIR_7);
+                         S_LDA_DIR_7,
+                       
+                         S_LDB_DIR_4,       -- Load B (Direct) states
+                         S_LDB_DIR_5, 
+                         S_LDB_DIR_6,
+                         S_LDB_DIR_7);
     
     signal current_state := state_type;
     signal next_state: state_type;
@@ -285,8 +294,7 @@ architecture control_unit_arch of control_unit is
                             Bus2_Sel = "01"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
                             write     <= '0';
                             
-
-                       when (S_LDA_DIR_5) =>
+                    when (S_LDA_DIR_5) =>
                             IR_Load   <= '0';
                             MAR_Load  <= '0';
                             PC_Load   <= '0';
