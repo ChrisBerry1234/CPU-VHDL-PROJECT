@@ -176,7 +176,7 @@ architecture control_unit_arch of control_unit is
                             Bus2_Sel = "10"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
                             write     <= '0';
 
-                    --------------------LDA_IMM------------------------------------- 
+                    --------------------LDA_DIR------------------------------------- 
                         when (S_LDA_DIR_4) =>
                             IR_Load   <= '0';
                             MAR_Load  <= '1';
