@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity data_path is 
+entity control_unit is 
     port (
         Clock       : in  std_logic;
         Reset       : in  std_logic;  
@@ -21,110 +21,22 @@ entity data_path is
         Bus2_Sel    : out std_logic_vector(1 downto 0);
         Bus1_Sel    : out std_logic_vector(1 downto 0)
     );
-end data_path;
+end control_unit;
 
-architecture data_path_arch of data_path is 
+architecture control_unit_arch of control_unit is 
+   --Declarations
+   -- Include Instructions Package
+   -- Announce State Types For FSM traversal 
+    
+    type state_type is ( S_FETCH_0,         -- Opcode fetch states
+                         S_FETCH_1,
+                         S_FETCH_2,
 
+                         S_DECODE_3         -- OpCode decode State
+
+                        --LIST ALL OPERATION STATES 
 begin
+    
+    
 
-    -- external connections
-    address   <= MAR;
-    to_memory <= BUS2;
-    PC        <= std_logic_vector(PC_uns);
-
-    -- IR
-    INSTRUCTION_REGISTER : process(Clock, Reset)
-    begin
-        if Reset = '0' then 
-            IR <= x"00";
-        elsif rising_edge(Clock) then 
-            if IR_Load = '1' then 
-                IR <= BUS2;
-            end if;
-        end if;
-    end process; 
-
-    -- MAR
-    MEMORY_ADDRESS_REGISTER : process(Clock, Reset)
-    begin 
-        if Reset = '0' then 
-            MAR <= x"00";
-        elsif rising_edge(Clock) then 
-            if MAR_Load = '1' then 
-                MAR <= BUS2;
-            end if;
-        end if;
-    end process;
-
-    -- PC
-    PROGRAM_COUNTER : process(Clock, Reset)
-        variable PC_Temp : unsigned(7 downto 0);
-    begin 
-        if Reset = '0' then
-            PC_uns <= (others => '0');
-        elsif rising_edge(Clock) then 
-            PC_Temp := PC_uns;
-
-            if PC_Load = '1' then 
-                PC_uns <= unsigned(BUS2);
-            elsif PC_Inc = '1' then
-                PC_uns <= PC_Temp + 1;
-            end if;
-        end if;
-    end process;
-
-    -- A
-    A_Register : process(Clock, Reset)
-    begin 
-        if Reset = '0' then 
-            A <= x"00";
-        elsif rising_edge(Clock) then 
-            if A_Load = '1' then
-                A <= BUS2;
-            end if;
-        end if;
-    end process;
-
-    -- B
-    B_Register : process(Clock, Reset)
-    begin
-        if Reset = '0' then 
-            B <= x"00";
-        elsif rising_edge(Clock) then
-            if B_Load = '1' then 
-                B <= BUS2;
-            end if;
-        end if;
-    end process; 
-
-    -- BUS2 MUX (combinational)
-    MUX_BUS2 : process(Bus2_Sel, ALU_Result, BUS1, from_memory)
-    begin 
-        case Bus2_Sel is
-            when "00" =>
-                BUS2 <= ALU_Result;
-            when "01" =>
-                BUS2 <= BUS1;
-            when "10" =>
-                BUS2 <= from_memory;
-            when others =>
-                BUS2 <= (others => '0');
-        end case;
-    end process;
-
-    -- BUS1 MUX (combinational)
-    MUX_BUS1 : process(Bus1_Sel, PC, A, B)
-    begin 
-        case Bus1_Sel is
-            when "00" =>
-                BUS1 <= PC;
-            when "01" =>
-                BUS1 <= A;
-            when "10" =>
-                BUS1 <= B;
-            when others =>
-                BUS1 <= (others => '0');
-        end case;
-    end process; 
-
-end data_path_arch;
+end control_unit_arch;
