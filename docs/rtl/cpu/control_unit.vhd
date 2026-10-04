@@ -8,10 +8,6 @@ entity data_path is
         Reset       : in  std_logic;  
         write       : out std_logic; 
         
-        address     : out std_logic_vector(7 downto 0);
-        from_memory : in  std_logic_vector(7 downto 0);
-        to_memory   : out std_logic_vector(7 downto 0);
-
         IR_Load     : out std_logic;
         IR          : in  std_logic_vector(7 downto 0); 
         MAR_Load    : out std_logic; 
@@ -19,7 +15,7 @@ entity data_path is
         PC_Inc      : out std_logic;
         A_Load      : out std_logic;
         B_Load      : out std_logic;
-        ALU_Sel     : out std_logic_vector(3 downto 0);
+        ALU_Sel     : out std_logic_vector(2 downto 0);
         CCR_Result  : in  std_logic_vector(3 downto 0);
         CCR_Load    : out std_logic; 
         Bus2_Sel    : out std_logic_vector(1 downto 0);
@@ -28,18 +24,6 @@ entity data_path is
 end data_path;
 
 architecture data_path_arch of data_path is 
-
-    signal BUS1     : std_logic_vector(7 downto 0);
-    signal BUS2     : std_logic_vector(7 downto 0);
-
-    signal IR       : std_logic_vector(7 downto 0);
-    signal MAR      : std_logic_vector(7 downto 0);
-    signal PC_uns   : unsigned(7 downto 0);
-    signal PC       : std_logic_vector(7 downto 0);
-    signal A        : std_logic_vector(7 downto 0);
-    signal B        : std_logic_vector(7 downto 0);
-    signal CCR      : std_logic_vector(7 downto 0);
-    signal ALU_Result : std_logic_vector(7 downto 0);
 
 begin
 
