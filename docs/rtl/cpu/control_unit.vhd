@@ -33,7 +33,7 @@ architecture control_unit_arch of control_unit is
                          S_FETCH_1,
                          S_FETCH_2,
 
-                         S_DECODE_3         -- OpCode decode State
+                         S_DECODE_3,         -- OpCode decode State
 
                         --LIST ALL OPERATION STATES 
                         
@@ -53,7 +53,14 @@ architecture control_unit_arch of control_unit is
                          S_LDB_DIR_4,       -- Load B (Direct) states
                          S_LDB_DIR_5, 
                          S_LDB_DIR_6,
-                         S_LDB_DIR_7);
+                         S_LDB_DIR_7,
+
+                         S_STA_4,
+                         S_STA_5,
+                         S_STA_6,
+                         S_STA_7,
+                        
+                       );
     
     signal current_state := state_type;
     signal next_state: state_type;
@@ -184,6 +191,7 @@ architecture control_unit_arch of control_unit is
                             Bus1_Sel = "00"; --PC = "00", A="01", B="10"
                             Bus2_Sel = "10"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
                             write     <= '0';
+
                         ----------------------LDB_IMM-----------------------------------------------
                         when (S_LDB_IMM_4) => 
                             IR_Load   <= '0';
@@ -225,7 +233,6 @@ architecture control_unit_arch of control_unit is
                             --Bus2_Sel = "10"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
                             write     <= '0';
 
-
                       --------------------LDA_DIR------------------------------------- 
                       when (S_LDA_DIR_4) =>
                             IR_Load   <= '0';
@@ -240,7 +247,6 @@ architecture control_unit_arch of control_unit is
                             Bus2_Sel = "01"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
                             write     <= '0';
                             
-
                        when (S_LDA_DIR_5) =>
                             IR_Load   <= '0';
                             MAR_Load  <= '0';
@@ -332,5 +338,113 @@ architecture control_unit_arch of control_unit is
                             --Bus1_Sel = "00"; --PC = "00", A="01", B="10"
                             --Bus2_Sel = "10"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
                             write     <= '0';
+
+                    ----------------------STA_DIR-------------------------------------
+                   when (S_STA_4) =>
+                            IR_Load   <= '0';
+                            MAR_Load  <= '1';
+                            PC_Load   <= '0';
+                            PC_Inc    <= '0';
+                            A_Load    <= '0';
+                            B_Load    <= '0';
+                            ALU_Sel   <= "000";
+                            CCR_Load  <= '0';
+                            Bus1_Sel = "10"; --PC = "00", A="01", B="10"
+                            Bus2_Sel = "01"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
+                            write     <= '0';
+                            
+                    when (S_STA_5) =>
+                            IR_Load   <= '0';
+                            MAR_Load  <= '0';
+                            PC_Load   <= '0';
+                            PC_Inc    <= '1';
+                            A_Load    <= '0';
+                            B_Load    <= '0';
+                            ALU_Sel   <= "000";
+                            CCR_Load  <= '0';
+                            --Bus1_Sel = "00"; --PC = "00", A="01", B="10"
+                            --Bus2_Sel = "00"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
+                            write     <= '0';
+
+                     when (S_STA_6) =>
+                            IR_Load   <= '0';
+                            MAR_Load  <= '1';
+                            PC_Load   <= '0';
+                            PC_Inc    <= '0';
+                            A_Load    <= '0';
+                            B_Load    <= '0';
+                            ALU_Sel   <= "000";
+                            CCR_Load  <= '0';
+                            --Bus1_Sel = "00"; --PC = "00", A="01", B="10"
+                            Bus2_Sel = "10"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
+                            write     <= '0';
+
+                    when(S_STA_7) => 
+                            IR_Load   <= '0';
+                            MAR_Load  <= '0';
+                            PC_Load   <= '0';
+                            PC_Inc    <= '0';
+                            A_Load    <= '1';
+                            B_Load    <= '0';
+                            ALU_Sel   <= "000";
+                            CCR_Load  <= '0';
+                            Bus1_Sel  = "01"; --PC = "00", A="01", B="10"
+                            --Bus2_Sel  = "00"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
+                            write     <= '1';
+
+                      ----------------------STB_DIR-------------------------------------
+                   when (S_STB_4) =>
+                            IR_Load   <= '0';
+                            MAR_Load  <= '1';
+                            PC_Load   <= '0';
+                            PC_Inc    <= '0';
+                            A_Load    <= '0';
+                            B_Load    <= '0';
+                            ALU_Sel   <= "000";
+                            CCR_Load  <= '0';
+                            Bus1_Sel = "10"; --PC = "00", A="01", B="10"
+                            Bus2_Sel = "01"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
+                            write     <= '0';
+                            
+                    when (S_STB_5) =>
+                            IR_Load   <= '0';
+                            MAR_Load  <= '0';
+                            PC_Load   <= '0';
+                            PC_Inc    <= '1';
+                            A_Load    <= '0';
+                            B_Load    <= '0';
+                            ALU_Sel   <= "000";
+                            CCR_Load  <= '0';
+                            --Bus1_Sel = "00"; --PC = "00", A="01", B="10"
+                            --Bus2_Sel = "00"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
+                            write     <= '0';
+
+                     when (S_STB_6) =>
+                            IR_Load   <= '0';
+                            MAR_Load  <= '1';
+                            PC_Load   <= '0';
+                            PC_Inc    <= '0';
+                            A_Load    <= '0';
+                            B_Load    <= '0';
+                            ALU_Sel   <= "000";
+                            CCR_Load  <= '0';
+                            --Bus1_Sel = "00"; --PC = "00", A="01", B="10"
+                            Bus2_Sel = "10"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
+                            write     <= '0';
+
+                    when(S_STB_7) => 
+                            IR_Load   <= '0';
+                            MAR_Load  <= '0';
+                            PC_Load   <= '0';
+                            PC_Inc    <= '0';
+                            A_Load    <= '0';
+                            B_Load    <= '1';
+                            ALU_Sel   <= "000";
+                            CCR_Load  <= '0';
+                            Bus1_Sel  = "01"; --PC = "00", A="01", B="10"
+                            --Bus2_Sel  = "00"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
+                            write     <= '1';
+
+                    
 
 end control_unit_arch;
