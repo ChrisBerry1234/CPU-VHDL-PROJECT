@@ -45,7 +45,7 @@ architecture ALU_arch of ALU is
               ----------OverFlow------------------
               --Two cases for overflow--
              if (a_u(7) = '1' and b_u(7) = '1' and Sum_uns(8) = '1' ) or 
-                (a_u(7) = '0' and b_u(7) = '0' and Sum_uns(8) = '0') then 
+                (a_u(7) = '0' and b_u(7) = '0' and Sum_uns(8) = '1') then 
 
                NZCV(0) = '1';
             else
@@ -64,9 +64,35 @@ architecture ALU_arch of ALU is
               
             when "001" =>
               --Subtraction--
-              Sub_uns = ('0' & a_u(7)) - ('0' & b_u(7));
+              Sub_uns = ('0' & a_u) - ('0' & b_u);
               ALU_Result <= std_logic_vector(Sub_uns(7 downto 0);
 
-              -----Carry-Flag 
+              -----Carry/Borrow-Flag--------
+              NZCV(1) = Subs_uns(8);
+                                             
+              ---------OverFlow-------------
+              A < B, requiring a borrow from outside the MSB.
+              if (a_u = '1' and b_u = '0' and Sub_uns(8) = '1') or
+              (a_u = '0' and b_u = '1' and Sub_uns(8) = '0' ) then 
+                                             
+                NZCV(0) = '1';
+
+              else
+                NZCV(0) = '0';
+                                                              
+              -----NegativeFlag------
+              NZCV(3) = Sub_uns(7);
+                                             
+              -----ZeroFlag----------
+              if (Sub_uns(7 downto 0) = x"00") then 
+                  NZCV(2) = '1';
+              else 
+                  NZCV(2) = '0''
+              end if;
+                                            
                                              
             when "010"
+
+            end case;
+          end process;
+        end architecture ALU_arch;
