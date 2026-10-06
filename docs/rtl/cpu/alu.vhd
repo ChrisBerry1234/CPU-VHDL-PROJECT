@@ -88,6 +88,9 @@ architecture ALU_arch of ALU is
               else 
                   NZCV(2) = '0''
               end if;
+
+              --Assign values to NZCV
+              CCR_Result <= NZCV;
                                             
                                              
             when "010"
