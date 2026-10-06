@@ -49,9 +49,9 @@ begin
         port map (
           ALU_Sel    => ALU_Sel,
           A          => A,
-          B          => B,
+          B          => BUS1,
           ALU_Result => ALU_Result,
-          CCR_Result => CCR_Result
+          CCR_Result => CCR
         );
      
     -- IR
