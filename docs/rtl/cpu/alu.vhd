@@ -60,6 +60,9 @@ architecture ALU_arch of ALU is
             ---------Negative-Flag-------------
             -----MSB-1 will either be 0 or 1, determing whether the flag is assert or not -----------
             NZCV(3) = Sum_uns(7);
+
+            --Assign values to NZCV
+            CCR_Result <= NZCV;
               
             when "001" =>
               --Subtraction--
@@ -89,7 +92,7 @@ architecture ALU_arch of ALU is
                   NZCV(2) = '0''
               end if;
 
-              --Assign values to NZCV
+              --Assign NZCV to CCR_Result
               CCR_Result <= NZCV;
                                             
                                              
