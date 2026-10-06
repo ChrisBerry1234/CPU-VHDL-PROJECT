@@ -125,7 +125,7 @@ begin
             end if;
     end process;
     
-        CCR_Result <= CCR; 
+    CCR_Result <= CCR; 
                 
     -- B
     B_Register : process(Clock, Reset)
