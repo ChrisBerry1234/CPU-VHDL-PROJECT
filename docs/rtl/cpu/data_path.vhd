@@ -17,6 +17,7 @@ entity data_path is
         PC_Inc      : in std_logic;
         A_Load      : in std_logic;
         B_Load      : in std_logic;
+        ALU_Sel     : in std_logic_vector(2 downto 0);
         CCR_Load    : in std_logic; 
         Bus2_Sel    : in std_logic_vector(1 downto 0);
         Bus1_Sel    : in std_logic_vector(1 downto 0)
@@ -25,16 +26,18 @@ end data_path;
 
 architecture data_path_arch of data_path is 
 
+    -----datapath components------------
     signal BUS1     : std_logic_vector(7 downto 0);
     signal BUS2     : std_logic_vector(7 downto 0);
 
     signal IR       : std_logic_vector(7 downto 0);
     signal MAR      : std_logic_vector(7 downto 0);
-    signal PC_uns   : unsigned(7 downto 0);
     signal PC       : std_logic_vector(7 downto 0);
     signal A        : std_logic_vector(7 downto 0);
     signal B        : std_logic_vector(7 downto 0);
     signal CCR      : std_logic_vector(7 downto 0);
+
+    signal PC_uns   : unsigned(7 downto 0);
     signal ALU_Result : std_logic_vector(7 downto 0);
 
 begin
@@ -43,7 +46,6 @@ begin
     address   <= MAR;
     to_memory <= BUS2;
     PC        <= std_logic_vector(PC_uns);
-    CCR       <= NZVC;
 
     ALU_inst : entity work.ALU
         port map (
@@ -107,6 +109,18 @@ begin
         end if;
     end process;
 
+    --CCR
+    CCR : process(Clock, Reset)
+        begin 
+            if Reset = '0' then 
+                CCR <= x"00";
+            elsif (rising_edge(Clock))
+                if CCR_Load = '1';
+                    CCR_Result = CCR;
+                end if;
+            end if
+    end process;
+                
     -- B
     B_Register : process(Clock, Reset)
     begin
