@@ -15,15 +15,14 @@ end ALU;
 
 architecture ALU_arch of ALU is 
   --Declarations
-  signal NZCV <= std_logic_vector(3 downto 0);
+  signal NZCV : std_logic_vector(3 downto 0);
 
   begin 
 
     ALU: process(A, B, ALU_Sel)
 
         --declarations 
-        variable Sum_uns := unsigned(8 downto 0);  
-        variable Sub_uns := unsigned(8 downto 0);
+        variable ALU_Result_uns := unsigned(8 downto 0);  
         variable a_u     := unsigned(7 downto 0);
         variable b_u     := unsigned(7 downto 0); 
 
@@ -40,7 +39,7 @@ architecture ALU_arch of ALU is
 
               -----------Carry-Flag---------
               ---the MSB will either be 0 or 1, determining whether the flag is asserted or not------
-              NZCV(1) = Sum_uns(8);
+              NZCV(1) <= Sum_uns(8);
 
               ----------OverFlow------------------
               --Two cases for overflow--
