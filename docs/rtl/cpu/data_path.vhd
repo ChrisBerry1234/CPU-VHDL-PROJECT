@@ -10,6 +10,7 @@ entity data_path is
         from_memory : in  std_logic_vector(7 downto 0);
         to_memory   : out std_logic_vector(7 downto 0);
 
+        --external signal from control_unit.vhd
         IR_Load     : in std_logic;
         MAR_Load    : in std_logic; 
         PC_Load     : in std_logic;
@@ -42,7 +43,17 @@ begin
     address   <= MAR;
     to_memory <= BUS2;
     PC        <= std_logic_vector(PC_uns);
+    CCR       <= NZVC;
 
+    ALU_inst : entity work.ALU
+        port map (
+          ALU_Sel    => ALU_Sel,
+          A          => A,
+          B          => B,
+          ALU_Result => ALU_Result,
+          CCR_Result => CCR_Result
+        );
+     
     -- IR
     INSTRUCTION_REGISTER : process(Clock, Reset)
     begin
