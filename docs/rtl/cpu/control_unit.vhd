@@ -55,10 +55,19 @@ architecture control_unit_arch of control_unit is
                          S_LDB_DIR_6,
                          S_LDB_DIR_7,
 
-                         S_STA_4,
+                         S_STA_4,           -- Store A
                          S_STA_5,
                          S_STA_6,
                          S_STA_7,
+
+                         S_STB_4,           --Store B 
+                         S_STB_5,
+                         S_STB_6,
+                         S_STB_7,
+
+                         S_ADD_AB_4         --ADD A to B
+
+                         S_BRA_
                         
                        );
     
@@ -392,7 +401,7 @@ architecture control_unit_arch of control_unit is
                             --Bus2_Sel  = "00"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
                             write     <= '1';
 
-                      ----------------------STB_DIR-------------------------------------
+                  -----------------------STB_DIR-------------------------------------
                    when (S_STB_4) =>
                             IR_Load   <= '0';
                             MAR_Load  <= '1';
@@ -445,6 +454,61 @@ architecture control_unit_arch of control_unit is
                             --Bus2_Sel  = "00"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
                             write     <= '1';
 
-                    
+                  ----------------------ADD_AB_4-------------------------------------
+                 when(S_ADD_AB_4) =>
+                          IR_Load   <= '0';
+                          MAR_Load  <= '0';
+                          PC_Load   <= '0';
+                          PC_Inc    <= '0';
+                          A_Load    <= '1';
+                          B_Load    <= '0';
+                          ALU_Sel   <= "000"; 
+                          CCR_Load  <= '1';
+                          Bus1_Sel  = "01"; --PC = "00", A="01", B="10"
+                          Bus2_Sel  = "00"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
+                          write     <= '0';
+
+                ---------------------BRANCHING INSTRUCTIONS------------------
+                         
+                when(S_BRA_4) =>
+                        IR_Load   <= '0';
+                        MAR_Load  <= '1';
+                        PC_Load   <= '0';
+                        PC_Inc    <= '0';
+                        A_Load    <= '0';
+                        B_Load    <= '0';
+                        ALU_Sel   <= "000";
+                        CCR_Load  <= '0';
+                        Bus1_Sel  = "00"; --PC = "00", A="01", B="10"
+                        Bus2_Sel  = "01"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
+                        write     <= '0';
+
+                when(S_BRA_5) =>
+                       IR_Load   <= '0';
+                       MAR_Load  <= '0';
+                       PC_Load   <= '0';
+                       PC_Inc    <= '0';
+                       A_Load    <= '0';
+                       B_Load    <= '0';
+                       ALU_Sel   <= "000"; 
+                       CCR_Load  <= '0';
+                       Bus1_Sel  = "00"; --PC = "00", A="01", B="10"
+                       Bus2_Sel  = "00"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
+                       write     <= '0';
+                        
+                when(S_BRA_5) =>
+                       IR_Load   <= '0';
+                       MAR_Load  <= '0';
+                       PC_Load   <= '1';
+                       PC_Inc    <= '0';
+                       A_Load    <= '0';
+                       B_Load    <= '0';
+                       ALU_Sel   <= "000"; 
+                       CCR_Load  <= '0';
+                       Bus1_Sel  = "00"; --PC = "00", A="01", B="10"
+                       Bus2_Sel  = "10"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
+                       write     <= '0';
+                        
+                        
 
 end control_unit_arch;
