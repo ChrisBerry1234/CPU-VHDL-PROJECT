@@ -508,6 +508,8 @@ architecture control_unit_arch of control_unit is
                        Bus1_Sel  = "00"; --PC = "00", A="01", B="10"
                        Bus2_Sel  = "10"; --ALU_Result = "00", BUS1 = "01", from_memory = "10"
                        write     <= '0';
+
+                -----------------BEQ
                         
                         
 
