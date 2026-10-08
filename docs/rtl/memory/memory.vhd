@@ -32,7 +32,7 @@ architecture memory_arch of memory is
         data_out  => rom_data_out
       );
       
-    RAM_Inst : entity work.ram_128x8_syn
+    RAM_Inst : entity work.ram_96x8_syn
       port map (
           clock    => clock;
           address  => address;
@@ -41,7 +41,15 @@ architecture memory_arch of memory is
           data_out => ram_data_out
       );
 
-    PORT_Inst : entity work. 
+    PORT_Inst : entity work.PORTS
+      port map (
+         clock    => clock;
+         reset    => reset;
+         address  => address;
+         data_in  => data_in;
+         write    => write; 
+         port_out => port_out;
+      );
 
     MUX : process(address, ram_data_out, rom_data_out, port_in)
       begin
