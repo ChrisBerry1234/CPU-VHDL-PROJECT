@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.math_real.all;
 
-entity ram_128x8_sync is 
+entity ram_96x8_sync is 
   generic(
     WIDTH : integer := 8;
     DEPTH : integer := 224 --CONSTANT TO SCALE ADDRESSES 2^N OR 2^DEPTH 
@@ -19,7 +19,7 @@ entity ram_128x8_sync is
 end entity;
 
 
-architecture ram_128x8_sync_arch of ram_128x8_sync is 
+architecture ram_96x8_sync_arch of ram_96x8_sync is 
   
     type RAM_ARRAY is array (128 to DEPTH -1) of std_logic_vector(WIDTH-1 downto 0);
 
