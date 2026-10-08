@@ -1,6 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use work.memory_types_pkg.all;
 
 entity memory is 
   port (
@@ -18,9 +19,6 @@ end memory;
 
 architecture memory_arch of memory is 
   --declarations
-  --create a array of 16 ports, each with 8 bits of std_logic
-  type port_array is array(0 to 15) of std_logic_vector(7 downto 0);
-  
   --we can then create a signal for both port in and port out
   signal port_array_in  := port_array;
   signal port_array_out := port_array;
@@ -37,7 +35,7 @@ architecture memory_arch of memory is
       port map (
         clock     => clock;
         address   => address;
-        data_out  => data_out
+        data_out  => rom_data_out
       );
       
     RAM_Inst : entity work.ram_128x8_syn
@@ -46,7 +44,7 @@ architecture memory_arch of memory is
           address  => address;
           data_in  => data_in;
           WE       => write;
-          data_out => ram_data
+          data_out => ram_data_out
       );
 
     PORT_Inst : entity work. 
