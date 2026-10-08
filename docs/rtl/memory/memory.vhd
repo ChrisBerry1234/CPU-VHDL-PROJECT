@@ -20,8 +20,8 @@ end memory;
 architecture memory_arch of memory is 
   --declarations
 
-  signal ram_data_out := std_logic_vector(7 downto 0);
-  signal rom_data_out := std_logic_vector(7 downto 0);
+  signal ram_data_out : std_logic_vector(7 downto 0);
+  signal rom_data_out : std_logic_vector(7 downto 0);
 
   begin 
 
