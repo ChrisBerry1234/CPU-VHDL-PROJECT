@@ -19,15 +19,9 @@ end memory;
 
 architecture memory_arch of memory is 
   --declarations
-  --we can then create a signal for both port in and port out
-  signal port_array_in  := port_array;
-  signal port_array_out := port_array;
 
   signal ram_data_out := std_logic_vector(7 downto 0);
   signal rom_data_out := std_logic_vector(7 downto 0);
-
-  port_in  <= port_array_in;
-  port_out <= port_array_out;
 
   begin 
 
